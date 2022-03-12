@@ -29,9 +29,10 @@ void setup() {
     Serial.println("");
     Serial.println("************************************");
     Serial.println("OTA HTTP Update");
-    Serial.println("Esquema de particao: Minimal SPIFFS\n");
+    Serial.println("Esquema de particao: Minimal SPIFFS");
     
     //Inicializa SPIFFS
+    Serial.println("************************************");
     if(SPIFFS.begin()) {
         Serial.println("SPIFFS Ok");
     }
@@ -41,31 +42,32 @@ void setup() {
     }
 
     //Verifica / exibe arquivo
+    Serial.println("************************************");
     if(SPIFFS.exists("/Teste.txt")) {
         File f = SPIFFS.open("/Teste.txt", "r");
         
         if(f) {
-            Serial.println("Lendo arquivo:");
+            Serial.println("Conteudo do arquivo \"Teste.txt\":");
             Serial.println(f.readString());
             f.close();
         }
     }
     
     else {
-        Serial.println("Arquivo não encontrado");
+        Serial.println("Arquivo não encontrado!");
     }
   
     //Conecta WiFi
+    Serial.println("************************************");
+    Serial.print("Conectando WiFi: " + String(SSID));
+    
     WiFi.begin(SSID, PASSWORD);
-    Serial.print("\nConectando WiFi: " + String(SSID));
     
     while(WiFi.status() != WL_CONNECTED) {
         Serial.print(".");
-        delay(500);
+        delay(1000);
     }
     
-    Serial.println();
-
     ota.setLinkSketch("https://raw.githubusercontent.com/wlucasgc/OTA-HTTP-Update/main/sketch.bin");  //Link do sketch.bin
     ota.setLinkSpiffs("https://internetecoisas.com.br/download/IeC115-OTA/Blink.spiffs.esp32.bin");   //Link do SPIFFS
 }
@@ -77,12 +79,14 @@ void setup() {
 void loop() {
     int resultado;
 
+    Serial.println("");
+    Serial.println("************************************");
     Serial.print("Procurando por atualizaçoes em: ");
     for(int i = 10 ; i > 0 ; i--) {
         Serial.print(String(i) + "... ");
         delay(1000);
     }
-    Serial.println("0\n");
+    Serial.println("0");
     
     resultado = ota.atualizarSketch();
     
