@@ -11,10 +11,10 @@ class OTAHTTPUpdate {
     private:
         String _linkSketch;
         String _linkSpiffs;
-        //static void progresso(size_t atual, size_t total);
         
     public:
         OTAHTTPUpdate();
+        void reboot();
         void setLinkSketch(String linkSketch);
         void setLinkSpiffs(String linkSpiffs);
         void setLedProgresso(int ledProgresso);

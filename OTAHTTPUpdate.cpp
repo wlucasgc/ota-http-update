@@ -9,6 +9,22 @@
 #include "OTAHTTPUpdate.h"  //Biblioteca para as funções de atualização via HTTP
 
 //=======================================================================================================================
+//FUNÇÃO QUE MOSTRA O PROGRESSO DA ATUALIZAÇÃO
+//=======================================================================================================================
+
+void progresso(size_t atual, size_t total) {
+    int porcentagem;
+    static int ultima_porcentagem = -1;
+
+    porcentagem = (atual * 100) / total;
+
+    if(porcentagem != ultima_porcentagem) {
+        Serial.println(String(porcentagem) + "%");
+        ultima_porcentagem = porcentagem;
+    }
+}
+
+//=======================================================================================================================
 //CONSTRUTOR
 //=======================================================================================================================
 
@@ -18,12 +34,11 @@ OTAHTTPUpdate::OTAHTTPUpdate() {
 }
 
 //=======================================================================================================================
-//FUNÇÃO QUE MOSTRA O PROGRESSO DA ATUALIZAÇÃO
+//CONSTRUTOR
 //=======================================================================================================================
 
-void progresso(size_t atual, size_t total) {
-    Serial.print(atual * 100 / total);
-    Serial.print(" ");
+void OTAHTTPUpdate::reboot() {
+    ESP.restart();                      //Reinicia o ESP
 }
 
 //=======================================================================================================================
@@ -57,17 +72,10 @@ void OTAHTTPUpdate::setLedProgresso(int ledProgresso) {
 int OTAHTTPUpdate::atualizarSketch() {
     t_httpUpdate_return resultado;                              //Variável para guardar o resultado da atualização
 
-    Serial.println();
-    Serial.println("\n*** Atualização do sketch ***");
+    Serial.println("************************************");
+    Serial.println("Atualizando sketch...");
     Serial.println("Link: " + _linkSketch);
     
-    for (byte b = 5; b > 0; b--) {                              //Espera 5 segundos
-        Serial.print(b);
-        Serial.print("... ");
-        delay(1000);
-    }
-    Serial.println("0");
-
     WiFiClientSecure client;                                    //Cria uma instância de Cliente seguro
     client.setInsecure();                                       //Instrui o Cliente a ignorar a assinatura do Servidor na conexao segura
 
@@ -103,19 +111,12 @@ int OTAHTTPUpdate::atualizarSpiffs() {
 int OTAHTTPUpdate::atualizarSpiffs(bool reboot) {
     t_httpUpdate_return resultado;                              //Variável para guardar o resultado da atualização
 
-    Serial.println();
-    Serial.println("*** Atualização da SPIFFS ***");
+    Serial.println("************************************");
+    Serial.println("Atualizando SPIFFS...");
     Serial.println("Link: " + _linkSpiffs);
     SPIFFS.end();                                               //Encerra o SPIFFS para a atualização
     
-    for (byte b = 5; b > 0; b--) {                              //Espera 5 segundos
-        Serial.print(b);
-        Serial.print("... ");
-        delay(1000);
-    }
-    Serial.println("0");
-    
-    httpUpdate.rebootOnUpdate(reboot);                          //Indica se deve ou não reiniciar automaticamente
+    //httpUpdate.rebootOnUpdate(reboot);                          //Indica se deve ou não reiniciar automaticamente
 
     WiFiClientSecure client;                                    //Cria uma instância de Cliente seguro
     client.setInsecure();                                       //Instrui o Cliente a ignorar a assinatura do Servidor na conexao segura
