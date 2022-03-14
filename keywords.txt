@@ -1,0 +1,26 @@
+#######################################
+# OTA-HTTP-UPDATE
+#######################################
+
+#######################################
+# Biblioteca (KEYWORD1)
+#######################################
+
+OTA_HTTP_Update	KEYWORD1
+
+#######################################
+# Métodos e Funções (KEYWORD2)
+#######################################
+
+OTAHTTPUpdate	KEYWORD2
+reboot 	KEYWORD2
+setLinkSketch 	KEYWORD2
+setLinkSpiffs 	KEYWORD2
+setLedProgresso	KEYWORD2
+atualizarSketch	KEYWORD2
+atualizarSpiffs	KEYWORD2
+resultado	KEYWORD2
+
+#######################################
+# Constantes (LITERAL1)
+#######################################
